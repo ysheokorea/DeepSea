@@ -48,7 +48,6 @@ contract deepNFT is ERC721URIStorage, Ownable, ERC721Enumerable {
 
     function mintNFT(address recipient, string memory tokenURI)
         public
-        onlyOwner
         returns (uint256)
     {
         _tokenIds.increment();
