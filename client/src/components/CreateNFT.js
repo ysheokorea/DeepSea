@@ -1,23 +1,42 @@
 import { useState } from "react";
 import { create } from 'ipfs-http-client';
-import axios from "axios";
+import Contract from "web3-eth-contract";
+import ContractABI from "./ContractABI";
 
 const client = create('https://ipfs.infura.io:5001/api/v0');
 
-const CreateNFT = () => {
-    const [nftInfo, setNftInfo] = useState({});
+const CreateNFT = ({ account }) => {
+    const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState('');
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
 
-    const submitCreating = async () => {
-        // nft정보를 취합하여
-        // nftInfo 객체를 만든 뒤 생성 요청
+    const changeName = (e) => {
+        setName(e.target.value);
+    }
 
+    const changeDescription = (e) => {
+        setDescription(e.target.value);
+    }
+
+    const mintNFT = async () => {
         try {
-            const response = await axios.post("", nftInfo);
-            console.log(response);
+            const abi = ContractABI;
+            const address = "0xA48f3ddf1602193F7CA9316C8D2b0c2434D9a9bb";
+            Contract.setProvider('https://ropsten.infura.io/v3/ac783b135230409b97050c9729763345');
+            const contract = new Contract(abi, address);
+            const newTokenURI = {
+                name: name,
+                description: description,
+                image: fileUrl,
+            }
+            const result = await contract.methods.mintNFT(account, newTokenURI).call();
+            console.log(result)
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
+        
+
     }
 
     const handleChangeFile = async (e) => {
@@ -28,19 +47,19 @@ const CreateNFT = () => {
             const url = `https://ipfs.infura.io/ipfs/${added.path}`;
             setFileUrl(url);
         } catch (e) {
-            console.log(e);
+            console.error(e);
         }
     }
 
     return (
         <div className="createnft-wrap">
             <div>
-                <form>
-                    제목 <input type="text"></input>
-                    Description <input type="text"></input>
+                
+                    제목 <input type="text" onChange={e => changeName(e)}></input>
+                    Description <input type="text" onChange={e => changeDescription(e)}></input>
                     파일 업로드 <input type="file" id="file" onChange={e => handleChangeFile(e)} multiple="multiple"></input>
-                    <button type="submit" onClick={() => {submitCreating()}}>NFT 발행</button>
-                </form>
+                    <button onClick={() => mintNFT()}>NFT 발행</button>
+                
                 <img src={fileUrl} width="600px" alt="" />
             </div>
         </div>

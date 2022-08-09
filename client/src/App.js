@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import erc721Abi from "./erc721Abi";
 import Header from './pages/Header';
-import CreateNFT from './components/CreateNFT';
 
 function App() {
   const [web3, setWeb3] = useState();
@@ -30,7 +29,7 @@ function App() {
   return (
     <div className="App">
       <Header setAccounts={setAccounts} account={account} />
-      <CreateNFT />
+      
     </div>
   );
 }

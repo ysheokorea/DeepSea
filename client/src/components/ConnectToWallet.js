@@ -6,8 +6,6 @@ const ConnectToWallet = ({ setAccounts, account }) => {
           method: "eth_requestAccounts",
         });
 
-        console.log(accounts)
-
         setAccounts(accounts[0]);
     }
 

@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import "./Header.scss";
 import ConnectToWallet from "../components/ConnectToWallet"
+import CreateNFT from '../components/CreateNFT';
 
 const Header = ({ setAccounts, account }) => {
-    const [isConnect, setIsConnect] = useState(false)
+    const [isConnected, setIsConnected] = useState(false)
 
     return (
         <div className="header-wrap">
@@ -15,6 +16,7 @@ const Header = ({ setAccounts, account }) => {
 
             </div>
             <div className="accountInfo">
+                <CreateNFT account={account} />
 
             </div>
             <div className="connectWallet">
