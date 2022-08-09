@@ -11,7 +11,7 @@ const CreateNFT = () => {
     const submitCreating = async () => {
         // nft정보를 취합하여
         // nftInfo 객체를 만든 뒤 생성 요청
-        
+
         try {
             const response = await axios.post("", nftInfo);
             console.log(response);
@@ -38,7 +38,7 @@ const CreateNFT = () => {
                     제목 <input type="text"></input>
                     Description <input type="text"></input>
                     파일 업로드 <input type="file" id="file" onChange={e => handleChangeFile(e)} multiple="multiple"></input>
-                    <button type="submit" onClick={() => {submitCreating()}}></button>
+                    <button type="submit" onClick={() => {submitCreating()}}>NFT 발행</button>
                 </form>
                 <img src={fileUrl} width="600px" alt="" />
             </div>
