@@ -24,6 +24,7 @@ const CreateNFT = () => {
         const file = e.target.files[0];
         try {
             const added = await client.add(file)
+            console.log(added)
             const url = `https://ipfs.infura.io/ipfs/${added.path}`;
             setFileUrl(url);
         } catch (e) {
