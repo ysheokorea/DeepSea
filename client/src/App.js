@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import Web3 from 'web3';
+import erc721Abi from "./erc721Abi";
+import Header from './pages/Header';
 
 function App() {
+  const [web3, setWeb3] = useState();
+  const [account, setAccount] = useState('');
+  const [newErc721addr, setNewErc721Addr] = useState();
+
+  useEffect(() => {
+    if (typeof window.ethereum !== "undefined") {
+      try {
+        const web = new Web3(window.ethereum);
+        setWeb3(web);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }, []);
+
+  const setAccounts = (accounts) => {
+    setAccount(accounts);
+  }
+
+  const addNewErc721Token = () => {};
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header setAccounts={setAccounts} account={account} />
+      
     </div>
   );
 }
