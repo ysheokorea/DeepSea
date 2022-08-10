@@ -1,28 +1,36 @@
 import { useState } from 'react';
 import "./Header.scss";
-import ConnectToWallet from "../components/ConnectToWallet"
-import CreateNFT from '../components/CreateNFT';
+import { Link } from 'react-router-dom';
 
 const Header = ({ setAccounts, account }) => {
     const [isConnected, setIsConnected] = useState(false)
 
     return (
         <div className="header-wrap">
-            <div className="logo">DeepSea</div>
-            <div className="searchbar">
-
-            </div>
-            <div className="mainmenu">
-
-            </div>
-            <div className="accountInfo">
-                <CreateNFT account={account} />
-
-            </div>
-            <div className="connectWallet">
-                <ConnectToWallet setAccounts={setAccounts} account={account} />
-            </div>
-           
+            <Link to='/'>
+                <div className="logo">DeeqSea
+                </div>
+            </Link>
+            <Link to='/'>
+                <div className="searchbar">
+                    <span>search bar box</span>
+                </div>
+            </Link>
+            <Link to='/'>
+                <div className="category-wrap">
+                    <span>category별 NFT</span>
+                </div>
+            </Link>
+            <Link to='/myinfo'>
+                <div className="accountInfo">
+                    <span>나만의 NFT 발행</span>
+                </div>
+            </Link>
+            <Link to='/connectwallet'>
+                <div className="connectWallet">
+                    <span>지갑 연결하기</span>
+                </div>
+            </Link>
         </div>
     );
 };
