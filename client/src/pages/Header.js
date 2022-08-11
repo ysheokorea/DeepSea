@@ -1,35 +1,28 @@
-import { useState } from 'react';
 import "./Header.scss";
 import { Link } from 'react-router-dom';
+import { MdYoutubeSearchedFor, MdDashboard, MdOutlineBuild, MdOutlinePayment } from "react-icons/md";
 
 const Header = ({ setAccounts, account }) => {
-    const [isConnected, setIsConnected] = useState(false)
 
     return (
         <div className="header-wrap">
             <Link to='/'>
-                <div className="logo">DeeqSea
-                </div>
+                <div className="logo">DeepSea</div>
             </Link>
             <Link to='/'>
-                <div className="searchbar">
-                    <span>search bar box</span>
-                </div>
+                <form className="searchbar">
+                    <input type="text" placeholder="Account, Title..."></input>
+                    <button type="submit" title="Search"><MdYoutubeSearchedFor /></button>
+                </form>
             </Link>
             <Link to='/'>
-                <div className="category-wrap">
-                    <span>category별 NFT</span>
-                </div>
+                <button title="Category"><MdDashboard /></button>
             </Link>
             <Link to='/myinfo'>
-                <div className="accountInfo">
-                    <span>나만의 NFT 발행</span>
-                </div>
+                <button title="New NFT"><MdOutlineBuild /></button>
             </Link>
             <Link to='/connectwallet'>
-                <div className="connectWallet">
-                    <span>지갑 연결하기</span>
-                </div>
+                <button title="Connect Wallet"><MdOutlinePayment /></button>
             </Link>
         </div>
     );

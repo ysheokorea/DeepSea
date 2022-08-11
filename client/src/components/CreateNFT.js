@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { create } from 'ipfs-http-client';
-import Contract from "web3-eth-contract";
 import ContractABI from "./ContractABI";
-import Web3 from "web3";
 
 const client = create('https://ipfs.infura.io:5001/api/v0');
 
 const CreateNFT = ({ account, web3 }) => {
-    const [file, setFile] = useState(null);
     const [fileUrl, setFileUrl] = useState('');
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -24,14 +21,15 @@ const CreateNFT = ({ account, web3 }) => {
         try {
             const abi = ContractABI;
             const address = "0xA48f3ddf1602193F7CA9316C8D2b0c2434D9a9bb";
-            // Contract.setProvider('window.ethereum');
             const contract = new web3.eth.Contract(abi, address);
             const newTokenURI = {
                 name: name,
                 description: description,
                 image: fileUrl,
             }
-            const result = await contract.methods.mintNFT(account, newTokenURI).send({from: account});
+            console.log(account)
+            console.log(newTokenURI)
+            const result = await contract.methods.mintNFT(account, JSON.stringify(newTokenURI)).send({from: account});
             console.log(result)
         } catch (e) {
             console.error(e);

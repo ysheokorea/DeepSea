@@ -10,6 +10,7 @@ import WalletConnecting from './pages/WalletConnecting';
 function App() {
   const [web3, setWeb3] = useState();
   const [account, setAccount] = useState('');
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -26,6 +27,14 @@ function App() {
     setAccount(account);
   }
 
+  const toggleConnecting = () => {
+    if(isConnected === false){
+      setIsConnected(true);
+    } else {
+      setIsConnected(false)
+    }
+  }
+
   return (
     <div className="App">
       <div className="header-outline">
@@ -34,12 +43,10 @@ function App() {
       <div>
         <Routes>
           <Route exac path='/' element={<Home />} />
-          <Route path='/myinfo' element={<MyInfo account={account} web3={web3} />} />
-          <Route path='/connectwallet' element={<WalletConnecting setAccount={setAccount} account={account} />} />
+          <Route path='/myinfo' element={<MyInfo account={account} web3={web3} isConnected={isConnected} />} />
+          <Route path='/connectwallet' element={<WalletConnecting setAccount={setAccount} account={account} toggleConnecting={toggleConnecting} isConnected={isConnected} />} />
         </Routes>
-      </div>
-      
-      
+      </div> 
     </div>
   );
 }
