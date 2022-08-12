@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ContractABI from "./ContractABI";
 import { NFTStorage } from "nft.storage/dist/bundle.esm.min.js";
+import axios from "axios";
 
 const client = new NFTStorage({token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDEzM2YyOTBkOTY5YkNCQjZDMDljQjQxZEUzYTM1Yzc4MTQwZjYxNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2MDE5Mzc0NjAwNiwibmFtZSI6IlByYWN0aWNlIEtleSJ9.wg5FwOFPynFwN0sBl_FePfV2rdXNYaESx7eLS02rMGg"})
 
@@ -31,10 +32,12 @@ const CreateNFT = ({ account, web3 }) => {
             const tokenCID = await client.store(insertedData);
             const newTokenURI = "https://ipfs.io/ipfs/" + tokenCID.url.replace("ipfs://", "");
             // const fileURI = "https://ipfs.io/ipfs/" + newTokenURI.image.replace("ipfs://", "");
-            console.log(JSON.stringify(newTokenURI.image))
+            const metaData = await axios.get(newTokenURI);
+            const fileURl = "https://ipfs.io/ipfs/" + metaData.data.image.replace("ipfs://", "");
+            setfileUri(fileURl)
             // console.log(fileURI);
 
-            const result = await contract.methods.mintNFT(account, JSON.stringify(newTokenURI)).send({from: account});
+            const result = await contract.methods.mintNFT(account, newTokenURI).send({from: account});
             console.log(result)
         } catch (e) {
             console.error(e);
