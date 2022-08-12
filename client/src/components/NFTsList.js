@@ -4,23 +4,26 @@ import NFTInfo from "./NFTInfo";
 import './NFTsList.scss'
 
 const NFTsList = () => {
-    const [nfts, setNfts] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [nfts, setNfts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get('/alltoken');
-                setNfts(response.data.tokenURI);
-            } catch (e) {
-                console.error(e);
-            }
-            setLoading(false);
-        };
-        fetchData();
+        
     }, [])
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('/alltoken');
+            setNfts(response.data);
+        } catch (e) {
+            console.error(e);
+        }
+        setLoading(false);
+    };
 /*
+
+
     if(loading) {
         return <div>NFT 정보를 읽어오는 중입니다.</div>
     }
@@ -38,16 +41,17 @@ const NFTsList = () => {
     );
 */
     return (
+        <>
+        <button onClick={fetchData}>전체 NFT 보기</button>
         <div className="nftboxes">
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
-            <NFTInfo />
+            
+            {loading===false ? ( nfts.map((item, idx)=>{
+                return <NFTInfo nft={item} key={idx}/>
+            })):(<h1>로딩중입니다.</h1>)}
         </div>
+        
+        </>
+        
     )
 };
 

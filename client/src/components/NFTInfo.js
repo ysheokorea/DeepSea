@@ -1,18 +1,29 @@
+import { useState } from 'react';
 import './NFTInfo.scss';
 
 const NFTInfo = ({ nft }) => {
-    console.log(nft);
+    // const [imageURL, setImageURL] = useState('');
+
+    // try{
+    //     const fileURl = "https://ipfs.io/ipfs/" + nft.image.replace("ipfs://", "");
+    //     console.log(fileURl)
+    //     setImageURL(fileURl);
+
+    // }catch(err){
+    //     console.error(err);
+    // }
 
 
     return (
         <div className="nftblock">
             <div className="thumbnail">
-                <img src="https://cdnweb01.wikitree.co.kr/webdata/editor/202008/27/img_20200827164148_8a70c505.webp" alt=""></img>
+                <img src={"https://ipfs.io/ipfs/" + nft.image.replace("ipfs://", "")} alt=""></img>
+
             </div>
             <div className='contents'>
-                <h3>NFT 제목</h3>
-                <p>Description</p>
-                <button className="buy-nft">구매하기</button>  
+                <h3>NFT 제목 : {nft.name}</h3>
+                <p>Description : {nft.description}</p>
+                <button className="buy-nft">구매하기</button>
             </div>
         </div>
     );
