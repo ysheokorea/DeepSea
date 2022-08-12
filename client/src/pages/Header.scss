@@ -1,3 +1,57 @@
-.Header-wrap {
+
+
+.header-wrap {
     display: flex;
+    background: rgb(230, 229, 236);
+    height: 3rem;
+    justify-content: left;
+    align-items: center;
+    padding: 0 30rem;
+    margin-top: 1rem;
+
+    button {
+        background: none;
+        outline: none;
+        border: none;
+        background: rgb(230, 229, 236);
+        color: rgb(117, 103, 224);
+        padding-left: 0 3rem;
+        font-size: 1.5rem;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.1s background ease-in;
+        &:hover {
+            color: black;
+        }
+    }
+
+    .logo {
+        text-decoration: none;  
+        display: flex;
+        font-size: 1.5rem;
+        color: rgb(70, 50, 227);
+    }    
+
+    .searchbar {
+        margin-left: 100px;
+        margin-right: 50px;
+        display: flex;
+        width: 500px;
+        height: 2rem;    
+        input {
+            width: 100%;
+        }
+    }    
+
+
+    
+
+
+
+       
+
+        
+    
+
+    
 }

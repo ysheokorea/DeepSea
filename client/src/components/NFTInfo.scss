@@ -1,0 +1,39 @@
+.nftblock {
+    display: flex;
+    justify-content: center;
+
+    .thumbnail {
+        margin-right: 1rem;
+        img {
+            display: block;
+            width: 140px;
+            height: 160px;
+            object-fit: cover;
+        }
+    }
+
+    .contents {
+        
+
+        h3 {
+            margin: 0;
+            color: black;
+        }
+        
+        p {
+            flex: 1;
+            margin: 0;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            white-space: normal;
+        }
+
+        button {
+            margin: 0;
+        }
+    }
+
+    & + & {
+        margin-top: 2rem;
+    }
+}

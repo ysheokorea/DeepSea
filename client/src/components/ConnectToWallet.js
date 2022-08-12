@@ -1,12 +1,15 @@
 
-const ConnectToWallet = ({ setAccounts, account }) => {
+const ConnectToWallet = ({ setAccount, account, toggleConnecting, isConnected }) => {
 
     const connectWallet = async () => {
+        if(isConnected===false){
+            toggleConnecting();
+        }
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
 
-        setAccounts(accounts[0]);
+        setAccount(accounts[0]);
     }
 
     return (

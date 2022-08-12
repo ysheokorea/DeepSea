@@ -1,13 +1,16 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import Web3 from 'web3';
-import erc721Abi from "./erc721Abi";
 import Header from './pages/Header';
+import Home from './pages/Home';
+import MyInfo from './pages/MyInfo';
+import { Route, Routes } from 'react-router-dom';
+import WalletConnecting from './pages/WalletConnecting';
 
 function App() {
   const [web3, setWeb3] = useState();
   const [account, setAccount] = useState('');
-  const [newErc721addr, setNewErc721Addr] = useState();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (typeof window.ethereum !== "undefined") {
@@ -20,16 +23,30 @@ function App() {
     }
   }, []);
 
-  const setAccounts = (accounts) => {
-    setAccount(accounts);
+  const setAccounts = (account) => {
+    setAccount(account);
   }
 
-  const addNewErc721Token = () => {};
+  const toggleConnecting = () => {
+    if(isConnected === false){
+      setIsConnected(true);
+    } else {
+      setIsConnected(false)
+    }
+  }
 
   return (
     <div className="App">
-      <Header setAccounts={setAccounts} account={account} />
-      
+      <div className="header-outline">
+        <Header setAccounts={setAccounts} account={account} />
+      </div>
+      <div>
+        <Routes>
+          <Route exac path='/' element={<Home />} />
+          <Route path='/myinfo' element={<MyInfo account={account} web3={web3} isConnected={isConnected} />} />
+          <Route path='/connectwallet' element={<WalletConnecting setAccount={setAccount} account={account} toggleConnecting={toggleConnecting} isConnected={isConnected} />} />
+        </Routes>
+      </div> 
     </div>
   );
 }

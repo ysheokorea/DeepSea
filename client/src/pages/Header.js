@@ -1,28 +1,29 @@
-import { useState } from 'react';
 import "./Header.scss";
-import ConnectToWallet from "../components/ConnectToWallet"
-import CreateNFT from '../components/CreateNFT';
+import { Link } from 'react-router-dom';
+import { MdYoutubeSearchedFor, MdDashboard, MdOutlineBuild, MdOutlinePayment } from "react-icons/md";
 
 const Header = ({ setAccounts, account }) => {
-    const [isConnected, setIsConnected] = useState(false)
 
     return (
         <div className="header-wrap">
-            <div className="logo">DeepSea</div>
-            <div className="searchbar">
-
-            </div>
-            <div className="mainmenu">
-
-            </div>
-            <div className="accountInfo">
-                <CreateNFT account={account} />
-
-            </div>
-            <div className="connectWallet">
-                <ConnectToWallet setAccounts={setAccounts} account={account} />
-            </div>
-           
+            <Link to='/'>
+                <div className="logo">DeepSea</div>
+            </Link>
+            <Link to='/'>
+                <form className="searchbar">
+                    <input type="text" placeholder="Account, Title..."></input>
+                    <button type="submit" title="Search"><MdYoutubeSearchedFor /></button>
+                </form>
+            </Link>
+            <Link to='/'>
+                <button title="Category"><MdDashboard /></button>
+            </Link>
+            <Link to='/myinfo'>
+                <button title="New NFT"><MdOutlineBuild /></button>
+            </Link>
+            <Link to='/connectwallet'>
+                <button title="Connect Wallet"><MdOutlinePayment /></button>
+            </Link>
         </div>
     );
 };

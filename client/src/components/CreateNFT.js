@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { create } from 'ipfs-http-client';
-import Contract from "web3-eth-contract";
 import ContractABI from "./ContractABI";
 
 const client = create('https://ipfs.infura.io:5001/api/v0');
 
-const CreateNFT = ({ account }) => {
-    const [file, setFile] = useState(null);
+const CreateNFT = ({ account, web3 }) => {
     const [fileUrl, setFileUrl] = useState('');
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -23,20 +21,19 @@ const CreateNFT = ({ account }) => {
         try {
             const abi = ContractABI;
             const address = "0xA48f3ddf1602193F7CA9316C8D2b0c2434D9a9bb";
-            Contract.setProvider('https://ropsten.infura.io/v3/ac783b135230409b97050c9729763345');
-            const contract = new Contract(abi, address);
+            const contract = new web3.eth.Contract(abi, address);
             const newTokenURI = {
                 name: name,
                 description: description,
                 image: fileUrl,
             }
-            const result = await contract.methods.mintNFT(account, newTokenURI).call();
+            console.log(account)
+            console.log(newTokenURI)
+            const result = await contract.methods.mintNFT(account, JSON.stringify(newTokenURI)).send({from: account});
             console.log(result)
         } catch (e) {
             console.error(e);
         }
-        
-
     }
 
     const handleChangeFile = async (e) => {
