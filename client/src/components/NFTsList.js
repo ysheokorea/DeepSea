@@ -11,7 +11,7 @@ const NFTsList = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('https://server.com');
+                const response = await axios.get('/alltoken');
                 setNfts(response.data.tokenURI);
             } catch (e) {
                 console.error(e);

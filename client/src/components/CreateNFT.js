@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { create } from 'ipfs-http-client';
 import ContractABI from "./ContractABI";
+import { NFTStorage } from "nft.storage/dist/bundle.esm.min.js";
+import axios from "axios";
 
-const client = create('https://ipfs.infura.io:5001/api/v0');
+const client = new NFTStorage({token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDEzM2YyOTBkOTY5YkNCQjZDMDljQjQxZEUzYTM1Yzc4MTQwZjYxNzMiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2MDE5Mzc0NjAwNiwibmFtZSI6IlByYWN0aWNlIEtleSJ9.wg5FwOFPynFwN0sBl_FePfV2rdXNYaESx7eLS02rMGg"})
 
 const CreateNFT = ({ account, web3 }) => {
-    const [fileUrl, setFileUrl] = useState('');
+    const [file, setFile] = useState(null);
+    const [fileUri, setfileUri] = useState("");
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -22,14 +24,20 @@ const CreateNFT = ({ account, web3 }) => {
             const abi = ContractABI;
             const address = "0xA48f3ddf1602193F7CA9316C8D2b0c2434D9a9bb";
             const contract = new web3.eth.Contract(abi, address);
-            const newTokenURI = {
+            const insertedData = {
                 name: name,
                 description: description,
-                image: fileUrl,
+                image: file,
             }
-            console.log(account)
-            console.log(newTokenURI)
-            const result = await contract.methods.mintNFT(account, JSON.stringify(newTokenURI)).send({from: account});
+            const tokenCID = await client.store(insertedData);
+            const newTokenURI = "https://ipfs.io/ipfs/" + tokenCID.url.replace("ipfs://", "");
+            // const fileURI = "https://ipfs.io/ipfs/" + newTokenURI.image.replace("ipfs://", "");
+            const metaData = await axios.get(newTokenURI);
+            const fileURl = "https://ipfs.io/ipfs/" + metaData.data.image.replace("ipfs://", "");
+            setfileUri(fileURl)
+            // console.log(fileURI);
+
+            const result = await contract.methods.mintNFT(account, newTokenURI).send({from: account});
             console.log(result)
         } catch (e) {
             console.error(e);
@@ -37,15 +45,8 @@ const CreateNFT = ({ account, web3 }) => {
     }
 
     const handleChangeFile = async (e) => {
-        const file = e.target.files[0];
-        try {
-            const added = await client.add(file)
-            console.log(added)
-            const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-            setFileUrl(url);
-        } catch (e) {
-            console.error(e);
-        }
+        const selectedFile = e.target.files[0];
+        setFile(selectedFile);
     }
 
     return (
@@ -57,7 +58,7 @@ const CreateNFT = ({ account, web3 }) => {
                     파일 업로드 <input type="file" id="file" onChange={e => handleChangeFile(e)} multiple="multiple"></input>
                     <button onClick={() => mintNFT()}>NFT 발행</button>
                 
-                <img src={fileUrl} width="600px" alt="" />
+                <img src={fileUri} width="600px" alt="" />
             </div>
         </div>
     );
